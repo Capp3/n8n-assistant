@@ -1,0 +1,980 @@
+{
+  "name": "Ingest",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        -192
+      ],
+      "id": "2db03cad-a584-4e15-b1ab-89e465bb1ee9",
+      "name": "When chat message received",
+      "webhookId": "e0fc6299-ef47-4748-889a-13e4badb4002"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appeYhvcxjVidzm4s",
+          "mode": "list",
+          "cachedResultName": "Projects",
+          "cachedResultUrl": "https://airtable.com/appeYhvcxjVidzm4s"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblcHjRWm5wFJdfxm",
+          "mode": "list",
+          "cachedResultName": "Agent Projects",
+          "cachedResultUrl": "https://airtable.com/appeYhvcxjVidzm4s/tblcHjRWm5wFJdfxm"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        48,
+        -192
+      ],
+      "id": "ff40d0d7-6af2-4480-b9cc-6f04ff122a08",
+      "name": "Search records",
+      "alwaysOutputData": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "XX2fmf5ccOPPkhMz",
+          "name": "Airtable Cappy"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        448,
+        -192
+      ],
+      "id": "7f007628-218b-4b7b-b9d4-d0d3861456ea",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1728,
+        608
+      ],
+      "id": "6374c01e-7b71-4dc1-85f0-4bbb4a62de0b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "592cad35-ee55-4030-8574-e791f7d1864c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Project Manager"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2f390f5b-d1a0-4e4d-8722-486a81211353",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Task Manager"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bc05870c-0d99-4268-802b-b2b9231f6d26",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Meeting Manager"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4cd2be6c-ae3d-49e0-b783-c53d87618ba1",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Query"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        800,
+        -224
+      ],
+      "id": "89d2b1a1-3133-48fe-ad1d-1d12de32c882",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d202e03b-27e1-4f1d-bbf4-3a119c16b220",
+              "leftValue": "pm_status",
+              "rightValue": "new",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1552,
+        -768
+      ],
+      "id": "207169f7-1bc2-4b01-a862-38dc96276102",
+      "name": "Project Review"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1322d23-ee56-4c31-8a7b-0d7d0158b358",
+              "name": "pm_status",
+              "value": "new",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1328,
+        -768
+      ],
+      "id": "4647841b-2b1a-4bc7-ab9f-37872504628d",
+      "name": "Set PM"
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appeYhvcxjVidzm4s",
+          "mode": "list",
+          "cachedResultName": "Projects",
+          "cachedResultUrl": "https://airtable.com/appeYhvcxjVidzm4s"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblYLtzBiFmFPIalc",
+          "mode": "list",
+          "cachedResultName": "LlmProjectInfo",
+          "cachedResultUrl": "https://airtable.com/appeYhvcxjVidzm4s/tblYLtzBiFmFPIalc"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2000,
+        -768
+      ],
+      "id": "ed003cc7-277c-4d8a-bcb3-d487d88e736b",
+      "name": "Get a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "XX2fmf5ccOPPkhMz",
+          "name": "Airtable Cappy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1631503c-5ef3-4637-826e-dc4944e62039",
+              "name": "pm_status",
+              "value": "in_process",
+              "type": "string"
+            },
+            {
+              "id": "fea37c44-d8f7-4f91-b43e-0bd862146cee",
+              "name": "chat_prompt",
+              "value": "=",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1776,
+        -768
+      ],
+      "id": "f585259d-75b4-4ffb-b871-012c46fcd575",
+      "name": "Set PM New Prompt"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2176,
+        -768
+      ],
+      "id": "b50ed700-ddef-49f4-9b7f-8711a1673fe6",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2496,
+        -768
+      ],
+      "id": "c2e02424-b6e2-4b58-8733-040e2e3b7094",
+      "name": "Create or update a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "XX2fmf5ccOPPkhMz",
+          "name": "Airtable Cappy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemma-3-12b-it",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        -560
+      ],
+      "id": "577b7e9f-3281-4d9e-a73a-695f47301f89",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "bevyhTiL3BPQbhEa",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "memoryConnection": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        3440,
+        -64
+      ],
+      "id": "80237f64-509f-4afd-9070-23fde2ec09e1",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        -640
+      ],
+      "id": "d2a46be6-db72-4aca-9f04-4dbb779615cf",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "message": "ERROR in the Matrix",
+        "waitUserReply": false,
+        "options": {
+          "memoryConnection": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -640
+      ],
+      "id": "14b6aaac-a25c-4bfc-8780-e79bbd8d8413",
+      "name": "Respond to Chat1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1776,
+        -560
+      ],
+      "id": "9b26e2be-64a1-444d-9b6e-157a73663ab1",
+      "name": "Set PM Review Prompt"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3c78d54f-65e5-41dd-b66c-8e5f7c2c6994",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2704,
+        -768
+      ],
+      "id": "f03b81ac-d9a9-4783-bf2c-6ef85bc47206",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2704,
+        -544
+      ],
+      "id": "a5c50e86-5e95-4536-803c-ba0603c4ef7d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "open_projects",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -192
+      ],
+      "id": "9fde051c-8365-478b-903c-f41158d0f201",
+      "name": "Aggregate",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        2944,
+        -752
+      ],
+      "id": "662b87a6-cfbb-4e70-ad37-f6422cf05096",
+      "name": "Respond to Chat2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        -528
+      ],
+      "id": "94f483b3-1156-4fb4-bbe6-463169ebcf45",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "model": "qwen3:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        448,
+        16
+      ],
+      "id": "992c6325-a37f-4c59-81ab-0c28de6856fe",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "1jPLD4pDjojYrBPP",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2400,
+        -544
+      ],
+      "id": "caa927ce-af13-4808-95d4-941133686de7",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1520,
+        -224
+      ],
+      "id": "cb78e760-100a-4524-b2ae-e791093025f4",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "model": "mistral:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        -16
+      ],
+      "id": "6fe1859d-a02c-468f-a977-f74a0569e815",
+      "name": "Ollama Chat Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "1jPLD4pDjojYrBPP",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        -16
+      ],
+      "id": "2d9a148f-239d-41fb-b385-a128040cb220",
+      "name": "Date & Time1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1792,
+        -16
+      ],
+      "id": "5eec95f5-eab8-499f-83fb-30dec5be3c47",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        -224
+      ],
+      "id": "4279c42e-feb9-40cf-b040-465b3ccb008b",
+      "name": "Get availability in a calendar"
+    }
+  ],
+  "pinData": {
+    "When chat message received": [
+      {
+        "json": {
+          "sessionId": "e35dea24cf9d4f4bb85b67899df7af0c",
+          "action": "sendMessage",
+          "chatInput": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Respond to Chat",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Set PM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get availability in a calendar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        []
+      ]
+    },
+    "Project Review": {
+      "main": [
+        [
+          {
+            "node": "Set PM New Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set PM Review Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set PM": {
+      "main": [
+        [
+          {
+            "node": "Project Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set PM New Prompt": {
+      "main": [
+        [
+          {
+            "node": "Get a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a record": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Create or update a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set PM Review Prompt": {
+      "main": [
+        [
+          {
+            "node": "Get a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a record": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Chat2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Project Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get availability in a calendar": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9174bb99-c1d4-41a7-85e3-5d1fc5bb5c8e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1c23fdf105aaacd4635cc3179c8ec8a79b1339d581cd2a8e15367d996124a9e3"
+  },
+  "id": "LUVbsOW6jcaUv6Co",
+  "tags": [
+    {
+      "updatedAt": "2025-10-01T20:40:58.332Z",
+      "createdAt": "2025-10-01T20:40:58.332Z",
+      "id": "Agvn4xJwXk3Ix0tn",
+      "name": "Data"
+    },
+    {
+      "updatedAt": "2025-09-25T15:01:14.631Z",
+      "createdAt": "2025-09-25T15:01:14.631Z",
+      "id": "p0w3tR7x8Pb4nKcH",
+      "name": "RAG"
+    }
+  ]
+}
